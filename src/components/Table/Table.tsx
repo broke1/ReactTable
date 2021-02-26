@@ -6,6 +6,8 @@ import  store  from '../../store/store'
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
 
@@ -21,7 +23,7 @@ const Table = observer((props) => {
     let content = [];
     for (let i = 1; i < store.curPages+1; i++) {
       content.push(
-        <div key={i} className="number-pagination">{i}</div>
+        <div key={i} onClick={() => store.selectPage(i)} className="number-pagination">{i}</div>
       )
     }
     return content
@@ -31,17 +33,33 @@ const Table = observer((props) => {
     <div className="container">
       <div className="table-container">
         <div className="header-cell">
-          <div className="cell">№</div>
-          <div className="cell">ФИО спортсмена</div>
-          <div className="cell">Вид спорта</div>
-          <div className="cell">Количество медалей</div>
+          <div className="cell" onClick={() => store.filterData(0)}>
+            № 
+            {store.curFilterArrow(0,0) && <ExpandLessIcon className="arrow-filter" /> }
+            {store.curFilterArrow(0,1) && <ExpandMoreIcon className="arrow-filter" /> }
+          </div>
+          <div className="cell" onClick={() => store.filterData(1)}>
+            ФИО спортсмена
+            {store.curFilterArrow(1,0) && <ExpandLessIcon className="arrow-filter" /> }
+            {store.curFilterArrow(1,1) && <ExpandMoreIcon className="arrow-filter" /> }
+          </div>
+          <div className="cell" onClick={() => store.filterData(2)}>
+            Вид спорта
+            {store.curFilterArrow(2,0) && <ExpandLessIcon className="arrow-filter" /> }
+            {store.curFilterArrow(2,1) && <ExpandMoreIcon className="arrow-filter" /> }
+          </div>
+          <div className="cell" onClick={() => store.filterData(3)}>
+            Количество медалей
+            {store.curFilterArrow(3,0) && <ExpandLessIcon className="arrow-filter" /> }
+            {store.curFilterArrow(3,1) && <ExpandMoreIcon className="arrow-filter" /> }
+          </div>
         </div>
         
         <div className="table-block">
 
-          {store.dataTable.map( (item, index) => (
+          {store.dataForShow.map( (item, index) => (
             item.map( (itemCell, indexCell) => ( 
-              <div className="cell" key={`${index}-${indexCell}`}>{itemCell}</div>
+              <div className="cell"  key={`${index}-${indexCell}`}>{itemCell}</div>
             ))
 
           ))}
@@ -49,11 +67,11 @@ const Table = observer((props) => {
         </div>
       </div>
       <div className="pagination-block">
-        <ChevronLeftIcon className="arrow"/>
+        <ChevronLeftIcon className="arrow" onClick={() => store.switchPage('back')}/>
        
         {getPaginationContent()}
  
-        <ChevronRightIcon className="arrow"/>
+        <ChevronRightIcon className="arrow" onClick={() => store.switchPage('forward')}/>
       </div>
     </div>
   )
