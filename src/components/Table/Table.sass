@@ -1,5 +1,21 @@
 @import "../../sass/color.sass"
   
+.filter-block
+  margin-bottom: 10px
+  display: flex
+  flex-flow: row nowrap
+  justify-content: end
+  position: relative
+
+  .text-block
+    width: 300px
+    position: absolute
+    bottom: 0
+
+    &:focus + .search-icon
+      fill: red
+
+
 .table-container
   height: 80vh
   overflow: auto
@@ -21,7 +37,7 @@
       .arrow-filter
         font-size: 25px
         position: absolute
-        right: 15px
+        right: 10px
 
   .table-block
     display: grid 

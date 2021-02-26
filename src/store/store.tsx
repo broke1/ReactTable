@@ -18,14 +18,9 @@ const store =  observable({
       [false,false],
       [false,false],
     ],
+    filterText: '',
     pages: 0,
     currentPage: 0,
-    show: false,
-    name: 'Kitty',
-    action: "Hello",
-    get credentinal () {
-      return `${this.action} + ${this.name} = ${this.action+' '+this.name}`
-    },
     get curPages () {
       return this.pages
     },
@@ -50,7 +45,11 @@ const store =  observable({
         this.dataForShow = this.dataTable.filter( (item: any,index: number) => {
           return index >= min && index < max
         })
-      } 
+        this.pages = Math.ceil(this.dataTable.length/50)
+      } else {
+        this.dataForShow = this.dataTable
+        this.pages = Math.ceil(this.dataTable.length/50)
+      }
     }),
     switchPage: action ( function(direction: string) {
       let current = 0
@@ -67,7 +66,7 @@ const store =  observable({
       this.currentPage = index-1
       this.onePageData()
     }),
-    filterData: action (function(index: number) {
+    sortData: action (function(index: number) {
       
       if (!this.filterArrow[index][0]) {
         this.filterArrow[index][0] = true
@@ -110,31 +109,31 @@ const store =  observable({
 
       this.onePageData()
 
+    }),
+    filterData: action( function(event) {
+      let text = event.target.value
+      // if (text.length > this.filterText.length) {
+      //   console.log('forward')
+      // } else {
+      //   console.log('back')
+      // }
+      this.dataTable =  this.dataTableOrigin.filter( (item:[]) => {
+        let include = false
+        item.forEach( (itemRow:any) => {
+          if (String(itemRow).indexOf(text) != -1) {
+            include = true
+          }
+        })
+        return include
+      })
 
       
-     // this.dataTable.sort(function(a, b) { console.log(a[0], b[0]); return a[0] > b[0] })
-      
-
-
+      this.onePageData()
+   
     }),
     random: action( function() {
       return Math.floor(Math.random() * (5 - 0)) + 0;
     }),
-    changeCredential: action( function(action:string,name:string) {
-      this.action = action
-      this.name = name
-    }),
-    switchShow: action( async function(show:boolean) {
-      let status = false
-      let prom = new Promise( (resolve) => {
-        setTimeout( () => {
-          status = show
-          resolve(status)
-        },3000)
-      })
-      
-      this.show = await prom
-    })
   })
 
 

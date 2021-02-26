@@ -8,7 +8,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import TextField from '@material-ui/core/TextField';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 import './Table.sass'
@@ -31,24 +32,28 @@ const Table = observer((props) => {
 
   return (
     <div className="container">
+      <div className="filter-block">
+        <TextField className="text-block" label="Поиск" onChange={() => store.filterData(event)} />
+        <SearchIcon className="search-icon"/>
+      </div>
       <div className="table-container">
         <div className="header-cell">
-          <div className="cell" onClick={() => store.filterData(0)}>
+          <div className="cell" onClick={() => store.sortData(0)}>
             № 
             {store.curFilterArrow(0,0) && <ExpandLessIcon className="arrow-filter" /> }
             {store.curFilterArrow(0,1) && <ExpandMoreIcon className="arrow-filter" /> }
           </div>
-          <div className="cell" onClick={() => store.filterData(1)}>
+          <div className="cell" onClick={() => store.sortData(1)}>
             ФИО спортсмена
             {store.curFilterArrow(1,0) && <ExpandLessIcon className="arrow-filter" /> }
             {store.curFilterArrow(1,1) && <ExpandMoreIcon className="arrow-filter" /> }
           </div>
-          <div className="cell" onClick={() => store.filterData(2)}>
+          <div className="cell" onClick={() => store.sortData(2)}>
             Вид спорта
             {store.curFilterArrow(2,0) && <ExpandLessIcon className="arrow-filter" /> }
             {store.curFilterArrow(2,1) && <ExpandMoreIcon className="arrow-filter" /> }
           </div>
-          <div className="cell" onClick={() => store.filterData(3)}>
+          <div className="cell" onClick={() => store.sortData(3)}>
             Количество медалей
             {store.curFilterArrow(3,0) && <ExpandLessIcon className="arrow-filter" /> }
             {store.curFilterArrow(3,1) && <ExpandMoreIcon className="arrow-filter" /> }
